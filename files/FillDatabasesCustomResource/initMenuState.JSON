@@ -1,0 +1,200 @@
+[
+  {
+    "PK": {
+      "S": "menu"
+    },
+    "value": {
+      "L": [
+        {
+          "M": {
+            "available": {
+              "BOOL": true
+            },
+            "drink": {
+              "S": "Espresso"
+            },
+            "icon": {
+              "S": "barista-icons_espresso-alternative"
+            },
+            "modifiers": {
+              "L": [
+                {
+                  "M": {
+                    "Name": {
+                      "S": "Extra Milk"
+                    },
+                    "Options": {
+                      "SS": [
+                        "Oat",
+                        "Whole"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "M": {
+            "available": {
+              "BOOL": true
+            },
+            "drink": {
+              "S": "Cappuccino"
+            },
+            "icon": {
+              "S": "barista-icons_cappuccino-alternative"
+            },
+            "modifiers": {
+              "L": [
+                {
+                  "M": {
+                    "Name": {
+                      "S": "Milk"
+                    },
+                    "Options": {
+                      "SS": [
+                        "Oat",
+                        "Whole"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "M": {
+                    "Name": {
+                      "S": "Sirup"
+                    },
+                    "Options": {
+                      "SS": [
+                        "Caramel",
+                        "Vanilla"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "M": {
+            "available": {
+              "BOOL": true
+            },
+            "drink": {
+              "S": "Latte"
+            },
+            "icon": {
+              "S": "barista-icons_cafe-latte"
+            },
+            "modifiers": {
+              "L": [
+                {
+                  "M": {
+                    "Name": {
+                      "S": "Milk"
+                    },
+                    "Options": {
+                      "SS": [
+                        "Oat",
+                        "Whole"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "M": {
+                    "Name": {
+                      "S": "Sirup"
+                    },
+                    "Options": {
+                      "SS": [
+                        "Caramel",
+                        "Vanilla"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "M": {
+            "available": {
+              "BOOL": true
+            },
+            "drink": {
+              "S": "Flat White"
+            },
+            "icon": {
+              "S": "barista-icons_flat-white-alternative@2x"
+            },
+            "modifiers": {
+              "L": [
+                {
+                  "M": {
+                    "Name": {
+                      "S": "Milk"
+                    },
+                    "Options": {
+                      "SS": [
+                        "Oat",
+                        "Whole"
+                      ]
+                    }
+                  }
+                },
+                {
+                  "M": {
+                    "Name": {
+                      "S": "Sirup"
+                    },
+                    "Options": {
+                      "SS": [
+                        "Caramel",
+                        "Vanilla"
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "M": {
+            "available": {
+              "BOOL": true
+            },
+            "drink": {
+              "S": "Americano"
+            },
+            "icon": {
+              "S": "barista-icons_americano"
+            },
+            "modifiers": {
+              "L": []
+            }
+          }
+        }
+      ]
+    }
+  },
+    {
+      "PK": {
+        "S": "config"
+      },
+      "storeOpen": {
+        "BOOL": true
+      },
+      "maxOrdersPerUser": {
+        "N": "1"
+      },
+      "maxOrdersInQueue": {
+        "N": "10"
+      }
+    }
+]
