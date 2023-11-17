@@ -15,7 +15,7 @@ Important: this application uses various AWS services and there are costs associ
 
 After the stack is successfully deployed: 
 
-4. Update the field `${StateMachineArn}` in the list executions parameters of the `orderProcessorworkflow` state machine with the ARN of the `orderProcessorworkflow`
+4. Update the field `<StateMachineArn>` in the list executions parameters of the `orderProcessorworkflow` state machine with the ARN of the `orderProcessorworkflow`
 
 5. Update the frontend parameters in the `main.js` files of each app. *I advise to go to the vue-display-app and use your IDE to look for all appeareances of the respective paramter. This way you only have to update the parameters once and the vue-display-app is the only app that contains every parameter.* The `app.config.globalProperties.$OrderUrl` in the vue-display-app can of course only be updated after you deployed the vue-order-app and this parameter is used in the QR Code, so that users get send to the right URL when scanning the QR Code.  
 
