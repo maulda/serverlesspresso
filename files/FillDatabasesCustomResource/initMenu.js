@@ -13,8 +13,8 @@ const countingTableName = process.env.countingTable
 //import the file system library
 const fs = require('fs');
 //Then load it into a varibale
-var initMenuState = JSON.parse(fs.readFileSync('./initMenuState.JSON'));
-var initCountingState = JSON.parse(fs.readFileSync('./initCountingState.JSON'));
+var initMenuState = JSON.parse(fs.readFileSync('FillDatabasesCustomResource/initMenuState.JSON'));
+var initCountingState = JSON.parse(fs.readFileSync('FillDatabasesCustomResource/initCountingState.JSON'));
 
 // BatchWrite params template
 const params = {

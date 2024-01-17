@@ -14,7 +14,10 @@ exports.handler = function (event, context) {
   }
 
   const iot = new aws.Iot()
-  iot.describeEndpoint({}, (err, data) => {
+  var params = {
+    endpointType: "iot:Data-ATS"
+  };
+  iot.describeEndpoint(params, (err, data) => {
     let responseData, responseStatus
     if (err) {
       responseStatus = "FAILED"
