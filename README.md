@@ -5,20 +5,38 @@ Serverlesspresso is a serverless coffee bar exhibit, as seen at AWS re:Invent 20
 Important: this application uses various AWS services and there are costs associated with these services after the Free Tier usage - please see the [AWS Pricing page](https://aws.amazon.com/pricing/) for details. You are responsible for any AWS costs incurred. No warranty is implied in this example.
 
 ---
-### Config Steps
+### Deployment Steps
 
-1. Install dependency for `FillDatabasesCustomResource` and `create-auth-challenge` in `/files` via `npm install`.
 
-2. Zip each folder in `/files` and upload the zipped folders (1 zip file for each function) and the `orderProcessorWorkflow.json` to the root directory of an S3 Bucket in us-east-1.
+1. Zip each `folder` in `/files`. There should now be 18 zipped folders in total.
 
-3. Deploy the cloudformation template in `us-east-1` and edit the necessary parameters, like `SESFromAddress` and `S3BucketName`
+2. Go the [Amazon S3](https://s3.console.aws.amazon.com) and upload the zipped folders together with the `orderProcessorWorkflow.json`, `02OrderManagerStateMachine.json`, `RESTApiConfigService.yml` and the `RESTApiConfigService.yml` to the `root` directory of an S3 Bucket in eu-central-1.
+
+3. Go to [CloudFormation](https://eu-central-1.console.aws.amazon.com/cloudformation/home?region=eu-central-1) and deploy the cloudformation template `cf.yml` in `eu-central-1` and edit the necessary parameters, like `SESFromAddress` and `S3BucketName`. The `S3BucketName` is the name of the bucket where you uploaded the files to in Step 2. The `SESFromAddress` is the identity from which SES will send the email address. In order for this to work you should have a verified identity in [Amazon SES](https://eu-central-1.console.aws.amazon.com/ses/home?region=eu-central-1#/verified-identities)
 
 After the stack is successfully deployed: 
 
-4. Update the field `<StateMachineArn>` in the list executions parameters of the `orderProcessorworkflow` state machine with the ARN of the `orderProcessorworkflow`
+4. Go to [AWS Step Functions Step Machines](https://eu-central-1.console.aws.amazon.com/states/home?region=eu-central-1#/statemachines), click on the `OrderProcessorWorkflow-XXXXXX` state machine and copy the `Amazon Resource Name (ARN)` of the state machine. Now on the same state machine, select `edit`, click on `code` at the top to view the code and then go to line 36 (States->ListExecutions->Parameters->StateMachineArn) and replace `<StateMachineArn>` with the ARN of this state machine.
 
-5. Update the frontend parameters in the `main.js` files of each app. *I advise to go to the vue-display-app and use your IDE to look for all appeareances of the respective paramter. This way you only have to update the parameters once and the vue-display-app is the only app that contains every parameter.* The `app.config.globalProperties.$OrderUrl` in the vue-display-app can of course only be updated after you deployed the vue-order-app and this parameter is used in the QR Code, so that users get send to the right URL when scanning the QR Code.  
+5. In your IDE or TextEditor go to the `vue-order-app -> src` folder and open the `main.js` file. At the bottom of the file there is a `CONFIGURATION BANNER`, everything below should be updated with your values. You can find the correct values in the [CloudFormation](https://eu-central-1.console.aws.amazon.com/cloudformation/home?region=eu-central-1#/stacks) Stack Outputs Tab. Once you updated every value (9 in total), run `npm run build`. Once the build has finished without errors continue. Now go to [AWS Amplify](https://eu-central-1.console.aws.amazon.com/amplify/home?region=eu-central-1#/home), scroll down and select `Get Started` for `Host your web app`. Then select `Deploy without Git provider` and click on next. Give the app a name and upload the `dist` folder of the vue-order-app and then click `Save and deploy`. Copy the `URL` of the order app for the next step.
 
-6. Now either deploy locally with `npm run serve` or use `npm run build` for each app and upload the `dist folders` to Amplify (deploy without Git provider). You can also connect your repository to Amplify so it will directly run the build command, when you push to your repository. *Advise: Upload the vue-order-app first, because the main.js file in the vue-display-app requires the URL of the vue-order-app*
+6. Now open the `main.js` file in `vue-display-app -> src`. Also adjust every parameter, just like you did in the previous step with the help of the CloudFormation Stack Outputs Tab. For the `app.config.globalProperties.$OrderUrl` variable paste the URL that Amplify gave the order app. Now run `npm run build` and wait until it has finished. Then go to AWS Amplify, select `New app` and `Host web app`. Again `Deploy without Git provider` and give the app a name and upload the `dist` folder of the `vue-display-app`.
 
-7. After deployment you can login with your email and should receive a OTP to this email. If you are an admin user and want to login to the barista or display app you have to go to `cognito` and add your user to the `admin` group. *If you enter your email for the first time, directly go to cognito and add the user and afterwards use the OTP to login. You should now have access to the admin apps. If you enter your email and then enter the OTP before adding the user as an admin the app will tell you that you do not have the required permissions, and the OTP will be unvalid, so you need to request a new one.*
+7. Complete the same process one last time for the `main.js` file in `vue-barista-app -> src` and upload it to a new web app in `AWS Amplify`.
+
+7. After deployment you can login with your email and you will receive a OTP to this email. If you want to access the `vue-barista-app` or the `vue-display-app` you need to be an admin user. In order to fix this, go to [Amazon Cognito](https://eu-central-1.console.aws.amazon.com/cognito/v2/home?region=eu-central-1), open the `ServerlesspressoUserPool` Userpool, click on the user that should be an admin. Now at the bottom of the page select `Add user to group` and select the `admin` group.
+
+
+# Images
+
+## Barista App
+
+![vue-barista-app](/img/vue-barista-app.png)
+
+## Display App
+
+![vue-display-app](/img/vue-display-app.png)
+
+## Order App
+
+![vue-order-app](/img/vue-order-app.png)
