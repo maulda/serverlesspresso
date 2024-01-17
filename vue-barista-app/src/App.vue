@@ -79,13 +79,17 @@ export default {
   },
   computed: {
     getStoreStateButtonLabel: function () {
-      const label = this.isStoreOpen ? 'Geschäft schließen' : 'Geschäft öffnen'
+      var label = this.isStoreOpen
+      if (typeof this.isStoreOpen == "boolean") {
+        label = this.isStoreOpen ? 'Geschäft schließen':'Geschäft öffnen'
+      } else {
+        label = this.isStoreOpen.BOOL ? 'Geschäft schließen':'Geschäft öffnen'
+      }
       return label
     }
   },
   methods: {
     async storeSwitchChange () {
-      console.log('storeSwitchChange: ', this.isStoreOpen)
 
       this.isStoreChangingState = true
       this.robotEnabled = false
@@ -94,12 +98,17 @@ export default {
       // Refresh token
       const session = await Auth.currentSession()
       const jwtToken = session.getAccessToken().jwtToken
-      const requestedStoreState = (this.isStoreOpen ? 'Geschlossen' : 'Geöffnet')
+      var requestedStoreState = (this.isStoreOpen ? 'close': 'open')
+      if (typeof this.isStoreOpen == "boolean") {
+        requestedStoreState = (this.isStoreOpen ? 'close': 'open')
+      } else {
+        requestedStoreState = (this.isStoreOpen.BOOL ? 'close': 'open')
+      }
 
       try {
         const { data } = await axios({
           method: 'PUT',
-          url: `${this.$APIconfigURL}/store?state=${requestedStoreState}`,
+          url: `${this.$ConfigEndpoint}/store?state=${requestedStoreState}`,
           headers: {
             Authorization: 'Bearer ' + jwtToken
           }
@@ -127,7 +136,6 @@ export default {
           }
         })
         this.menu = data.filter((item) => item.topic === "menu")[0]
-
       } catch (err) {
         console.log("Cannot load config: ", err)
       }
@@ -161,8 +169,6 @@ export default {
       that.isStoreChangingState = false
     })
 
-    // Get printer IP from local storage
-    this.printerIPaddress = localStorage.printerIPaddress
   }
 }
 </script>

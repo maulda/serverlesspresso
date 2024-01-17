@@ -45,7 +45,7 @@
                 />
               </transition>
               <p style="text-align: center; padding:5px; ">
-                The store is not taking orders right now
+                Wir können gerade keine neuen Bestellungen annehmen.
               </p>
             </div>
           </div>
@@ -130,13 +130,13 @@ export default {
       }
       console.log("mounted::authStateChanged: ", that.authState)
     })
-
+    
     // Store state changed event
     this.emitter.on("storeState", function(detail) {
-      console.log("App.vue mounted storeState: ", detail, that.isStoreOpen);
       that.isStoreOpen = detail.NewImage.storeOpen.BOOL
       that.isStoreChangingState = false;
     })
+    
 
     this.emitter.on("message", async (data) => {
       this.eventsArray.push(data);
@@ -153,11 +153,11 @@ export default {
       try {
         const { data } = await axios.get(this.$ConfigEndpoint +`config`);
         console.log("Config: ", data);
-
+        this.storeOpen = data[1].storeOpen.BOOL;
         data.map((item) => {
           if (item.topic === "config") {
             console.log({ item });
-            this.storeOpen = item.storeOpen;
+            this.storeOpen = item.storeOpen.BOOL;
           }
         });
       } catch (err) {
